@@ -18,3 +18,6 @@ from sentence_transformers import SentenceTransformer, util
 import numpy as np
 # Database 
 
+tokenizer = Tokenizer.from_pretrained("bert-base-cased")
+
+DB_PATH = os.environ.get("DB_PATH", os.getcwd() + "/data-par_mul-6000-optimized/chromadb")
