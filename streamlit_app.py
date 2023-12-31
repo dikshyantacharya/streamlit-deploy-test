@@ -67,3 +67,11 @@ class MyEmbeddingFunction(EmbeddingFunction):
 
 
 embedding_dimension = 768
+db = Chroma(
+    client=persistent_client,
+    collection_name=COLLECTION_NAME,
+    embedding_function=MyEmbeddingFunction(),
+        collection_metadata={"hnsw:space": "cosine", "dimension": embedding_dimension}
+)
+
+#
