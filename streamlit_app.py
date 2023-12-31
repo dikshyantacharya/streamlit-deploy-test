@@ -25,6 +25,8 @@ DB_PATH = os.environ.get("DB_PATH", os.getcwd() + "/data-par_mul-6000-optimized/
 COLLECTION_NAME = os.environ.get("COLLECTION_NAME", "Dikshyant-Acharya")
 inference_api_url = 'https://em-german-70b.llm.mylab.th-luebeck.dev'
 
+
+
 persistent_client = chromadb.PersistentClient(path=DB_PATH)
 collection = persistent_client.get_or_create_collection(COLLECTION_NAME)
 
