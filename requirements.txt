@@ -1,4 +1,5 @@
 #pysqlite3-binary
+sqlite3>=3.35.0
 urllib3==1.26.16
 streamlit== 1.28.1
 chromadb
