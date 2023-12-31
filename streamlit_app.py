@@ -31,6 +31,8 @@ persistent_client = chromadb.PersistentClient(path=DB_PATH)
 collection = persistent_client.get_or_create_collection(COLLECTION_NAME)
 
 model = 'sentence-transformers/paraphrase-multilingual-mpnet-base-v2'
+
+"""
 class MyEmbeddingFunction(EmbeddingFunction):
     def __init__(self):
         # Initialize your sentence transformer model here
@@ -67,7 +69,7 @@ class MyEmbeddingFunction(EmbeddingFunction):
 
         # Call embed_documents
         return self.embed_documents(document_texts)
-
+"""
 
 embedding_dimension = 768
 embeddings = HuggingFaceEmbeddings()
@@ -75,7 +77,8 @@ embeddings = HuggingFaceEmbeddings()
 db = Chroma(
     client=persistent_client,
     collection_name=COLLECTION_NAME,
-    embedding_function=MyEmbeddingFunction(),
+  #  embedding_function=MyEmbeddingFunction(),
+    embedding_function=embeddings,
         collection_metadata={"hnsw:space": "cosine", "dimension": embedding_dimension}
 )
 
