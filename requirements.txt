@@ -1,7 +1,7 @@
-pysqlite3-binary
+#pysqlite3-binary
 urllib3==1.26.16
-streamlit==1.28.1
-chromadb
+streamlit== 1.28.1
+chromadb==0.3.29
 text_generation
 langchain
 tokenizers
