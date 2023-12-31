@@ -13,7 +13,7 @@ from langchain.callbacks import StreamlitCallbackHandler
 from langchain.llms import HuggingFaceTextGenInference
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from tokenizers import Tokenizer
-from chromadb import Documents, EmbeddingFunction, Embeddings
+from chromadb import  EmbeddingFunction, Embeddings
 from sentence_transformers import SentenceTransformer, util
 import numpy as np
 from langchain.embeddings import HuggingFaceEmbeddings
@@ -61,7 +61,7 @@ class MyEmbeddingFunction(EmbeddingFunction):
         return embedding
 
 
-    def __call__(self, input: Documents) -> Embeddings:
+    def __call__(self, input) -> Embeddings:
         # Convert input documents to a list of strings
         document_texts = [doc.text for doc in input]
 
