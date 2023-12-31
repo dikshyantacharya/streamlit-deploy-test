@@ -13,7 +13,7 @@ from langchain.callbacks import StreamlitCallbackHandler
 from langchain.llms import HuggingFaceTextGenInference
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from tokenizers import Tokenizer
-#from chromadb import Documents, EmbeddingFunction, Embeddings
+from chromadb import Documents, EmbeddingFunction, Embeddings
 from sentence_transformers import SentenceTransformer, util
 import numpy as np
 from langchain.embeddings import HuggingFaceEmbeddings
