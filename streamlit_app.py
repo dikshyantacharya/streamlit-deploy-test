@@ -16,6 +16,7 @@ from tokenizers import Tokenizer
 from chromadb import Documents, EmbeddingFunction, Embeddings
 from sentence_transformers import SentenceTransformer, util
 import numpy as np
+from langchain.embeddings import HuggingFaceEmbeddings
 # Database 
 
 tokenizer = Tokenizer.from_pretrained("bert-base-cased")
@@ -67,10 +68,13 @@ class MyEmbeddingFunction(EmbeddingFunction):
 
 
 embedding_dimension = 768
+embeddings = HuggingFaceEmbeddings()
+
 db = Chroma(
     client=persistent_client,
     collection_name=COLLECTION_NAME,
-    embedding_function=MyEmbeddingFunction(),
+  #  embedding_function=MyEmbeddingFunction(),
+    embedding_function=embeddings,
         collection_metadata={"hnsw:space": "cosine", "dimension": embedding_dimension}
 )
 
