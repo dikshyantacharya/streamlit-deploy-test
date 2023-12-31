@@ -1,6 +1,6 @@
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+#__import__('pysqlite3')
+#import sys
+#sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 import streamlit as st
 import os
@@ -31,8 +31,42 @@ persistent_client = chromadb.PersistentClient(path=DB_PATH)
 collection = persistent_client.get_or_create_collection(COLLECTION_NAME)
 
 model = 'sentence-transformers/paraphrase-multilingual-mpnet-base-v2'
+class MyEmbeddingFunction(EmbeddingFunction):
+    def __init__(self):
+        # Initialize your sentence transformer model here
+        self.model = SentenceTransformer(model)
+
+    def embed_documents(self, texts):
+        # Generate embeddings using the sentence transformer model
+        embeddings = self.model.encode(texts, show_progress_bar= True)
+
+        # Convert numpy array to a list of lists
+        embeddings_list = embeddings.tolist()
+
+        return embeddings_list
+
+    def embed_query(self, query):
+        # Embed a single query string
+        embedding = self.model.encode([query], show_progress_bar=True)
+
+        # Flatten the embedding if it's not already a 1-dimensional list
+        if isinstance(embedding, list):
+            # If it's a list of lists, flatten it
+            if all(isinstance(elem, list) for elem in embedding):
+                embedding = [item for sublist in embedding for item in sublist]
+        elif isinstance(embedding, np.ndarray):
+            # If it's an ndarray, convert it to a flat list
+            embedding = embedding.flatten().tolist()
+
+        return embedding
 
 
+    def __call__(self, input: Documents) -> Embeddings:
+        # Convert input documents to a list of strings
+        document_texts = [doc.text for doc in input]
+
+        # Call embed_documents
+        return self.embed_documents(document_texts)
 
 embedding_dimension = 768
 embeddings = HuggingFaceEmbeddings()
@@ -40,8 +74,8 @@ embeddings = HuggingFaceEmbeddings()
 db = Chroma(
     client=persistent_client,
     collection_name=COLLECTION_NAME,
-  #  embedding_function=MyEmbeddingFunction(),
-    embedding_function=embeddings,
+    embedding_function=MyEmbeddingFunction(),
+  #  embedding_function=embeddings,
         collection_metadata={"hnsw:space": "cosine", "dimension": embedding_dimension}
 )
 
