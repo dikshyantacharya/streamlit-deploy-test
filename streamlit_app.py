@@ -1,6 +1,6 @@
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+#__import__('pysqlite3')
+#import sys
+#sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 import streamlit as st
 import os
@@ -73,8 +73,7 @@ embeddings = HuggingFaceEmbeddings()
 db = Chroma(
     client=persistent_client,
     collection_name=COLLECTION_NAME,
-  #  embedding_function=MyEmbeddingFunction(),
-    embedding_function=embeddings,
+    embedding_function=MyEmbeddingFunction(),
         collection_metadata={"hnsw:space": "cosine", "dimension": embedding_dimension}
 )
 
